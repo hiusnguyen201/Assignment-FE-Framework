@@ -1,5 +1,5 @@
 const config = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+  content: ["./src/**/*.{ts,tsx}", "./public/index.html"],
   theme: {
     extend: {},
   },

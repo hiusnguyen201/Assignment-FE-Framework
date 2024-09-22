@@ -1,14 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
-import AuthLayout from "#src/components/layouts/AuthLayout.tsx";
-import MainLayout from "#src/components/layouts/MainLayout.tsx";
-import HomePage from "#src/pages/client/HomePage.tsx";
-import LoginPage from "#src/pages/auth/LoginPage.tsx";
-import RegisterPage from "#src/pages/auth/RegisterPage.tsx";
+import AuthLayout from "#src/components/layouts/AuthLayout";
+import MainLayout from "#src/components/layouts/MainLayout";
+import { LoginPage, RegisterPage } from "#src/pages/auth";
+import { HomePage, PatientsPage } from "#src/pages/client";
 
 const router = createBrowserRouter([
   {
     element: <MainLayout />,
-    children: [{ path: "/", element: <HomePage /> }],
+    children: [
+      { path: "/", element: <HomePage /> },
+      { path: "/patients", element: <PatientsPage /> },
+    ],
   },
   {
     element: <AuthLayout />,

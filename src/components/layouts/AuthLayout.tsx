@@ -9,7 +9,10 @@ export default function AuthLayout() {
       }}
       className="h-screen w-screen flex items-center justify-center"
     >
-      <Card className="mx-16" sx={{ width: 1050, height: "85%" }}>
+      <Card
+        className="md:mx-4 mx-2 bg-transparent shadow-none md:shadow"
+        sx={{ width: 1050, height: "85%" }}
+      >
         <Stack className="h-full" direction="row">
           <Box
             className="w-1/2 p-5 select-none hidden md:flex flex-col"
@@ -32,7 +35,7 @@ export default function AuthLayout() {
               />
             </Box>
           </Box>
-          <Box className="w-full py-10 px-5 md:w-1/2 bg-[#f0f5ff] flex items-center justify-center">
+          <Box className="w-full py-10 md:px-5 px-0 md:w-1/2 md:bg-[#f0f5ff] bg-transparent flex items-center justify-center">
             <Outlet />
           </Box>
         </Stack>

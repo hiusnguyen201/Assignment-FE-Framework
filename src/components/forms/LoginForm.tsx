@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { Box, TextField, Button } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { capitalizeFirstLetter } from "#src/utils/stringUtils.ts";
+import { capitalizeFirstLetter } from "#src/utils/stringUtils";
 
 const schema = yup
   .object({
