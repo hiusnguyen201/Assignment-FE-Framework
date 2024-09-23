@@ -1,12 +1,6 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
-import {
-  Avatar,
-  Box,
-  Button,
-  IconButton,
-  useMediaQuery,
-} from "@mui/material";
+import { Avatar, Box, Button, IconButton, useMediaQuery } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import {
   Group as GroupIcon,
@@ -16,6 +10,7 @@ import {
 import { DashboardLayout, AppProvider } from "@toolpad/core";
 import type { Navigation, Branding, Router } from "@toolpad/core";
 
+import InvitePatient from "#src/components/forms/InvitePatient";
 import AccountTooltip, { UserProps } from "./partials/AccountTooltip";
 
 const USER: UserProps = {
@@ -90,12 +85,16 @@ const theme = createTheme({
 });
 
 function Actions() {
+  const [open, setOpen] = useState(false);
+
   return (
     <Box className="hidden sm:flex">
+      <InvitePatient open={open} setOpen={setOpen} />
       <Button
         variant="contained"
         className="normal-case mr-2"
         endIcon={<AddIcon />}
+        onClick={() => setOpen(true)}
       >
         Invite new patients
       </Button>

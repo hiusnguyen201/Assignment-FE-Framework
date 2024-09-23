@@ -18,6 +18,7 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import type { GridColDef, GridPaginationModel } from "@mui/x-data-grid";
 import { formatDate } from "#src/utils/stringUtils";
+import fakedata from "./fakedata";
 
 type TRow = {
   id: number;
@@ -30,95 +31,12 @@ type TRow = {
   lastVisit: string;
 };
 
-const data = [
-  {
-    id: 1,
-    firstName: "John",
-    lastName: "Doe",
-    status: "Active",
-    email: "john.doe@example.com",
-    phone: "123-456-7890",
-    measurements: [
-      {
-        id: 1,
-        systolic: 120,
-        diastolic: 80,
-        heartRate: 80,
-        time: new Date(),
-        createdAt: new Date(),
-      },
-    ],
-    lastVisit: new Date(),
-  },
-  {
-    id: 2,
-    firstName: "John 2",
-    lastName: "Doe 2",
-    status: "Inactive",
-    email: "john.doe@example.com",
-    phone: "123-456-7890",
-    measurements: [],
-    lastVisit: new Date(),
-  },
-  {
-    id: 4,
-    firstName: "John 4",
-    lastName: "Doe 4",
-    status: "Active",
-    email: "john.doe@example.com",
-    phone: "123-456-7890",
-    measurements: [
-      {
-        id: 2,
-        systolic: 120,
-        diastolic: 80,
-        heartRate: 80,
-        time: new Date(),
-        createdAt: new Date(),
-      },
-      {
-        id: 3,
-        systolic: 150,
-        diastolic: 80,
-        heartRate: 100,
-        time: new Date(),
-        createdAt: new Date(),
-      },
-    ],
-    lastVisit: new Date(),
-  },
-  {
-    id: 3,
-    firstName: "John 3",
-    lastName: "Doe 3",
-    status: "Inactive",
-    email: "john.doe@example.com",
-    phone: "123-456-7890",
-    measurements: [],
-    lastVisit: new Date(),
-  },
-];
-
-for (let i: number = 5; i < 55; i++) {
-  data.push({
-    id: i,
-    firstName: `John ${i}`,
-    lastName: `Doe ${i}`,
-    status: "Inactive",
-    email: "john.doe@example.com",
-    phone: "123-456-7890",
-    measurements: [],
-    lastVisit: new Date(),
-  });
-}
-
 export default function PatientsPage() {
   const theme = useTheme();
-  const [paginationModel, setPaginationModel] =
-    useState<GridPaginationModel>({
-      pageSize: 10,
-      page: 0,
-    });
+  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
+    pageSize: 10,
+    page: 0,
+  });
   const [autoSize, setAutoSize] = useState<boolean>(false);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -203,7 +121,7 @@ export default function PatientsPage() {
   }, [autoSize]);
 
   const rows: TRow[] = useMemo(() => {
-    return data.map((patient) => {
+    return fakedata.map((patient) => {
       const lastMeasurement =
         patient.measurements[patient.measurements.length - 1];
       return {
@@ -214,7 +132,7 @@ export default function PatientsPage() {
         lastVisit: formatDate(patient.lastVisit),
       };
     });
-  }, [data]);
+  }, [fakedata]);
 
   return (
     <Fragment>
@@ -261,9 +179,6 @@ export default function PatientsPage() {
               pagination: {
                 paginationModel,
               },
-            }}
-            onCellClick={(params) => {
-              console.log(params);
             }}
           />
         )}
