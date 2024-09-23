@@ -9,9 +9,6 @@ import {
 } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import {
-  Description as DescriptionIcon,
-  BarChart as BarChartIcon,
-  Layers as LayersIcon,
   Group as GroupIcon,
   Dashboard as DashboardIcon,
   Add as AddIcon,
@@ -57,41 +54,15 @@ const NAVIGATION: Navigation = [
     icon: <GroupIcon />,
     action: (
       <IconButton
+        onClick={(e) => {
+          e.preventDefault();
+        }}
         className="bg-blue-500 rounded sm:hidden flex"
         size="small"
         children={<AddIcon className="text-white" />}
       />
     ),
   },
-  // {
-  //   kind: "divider",
-  // },
-  // {
-  //   kind: "header",
-  //   title: "Analytics",
-  // },
-  // {
-  //   segment: "reports",
-  //   title: "Reports",
-  //   icon: <BarChartIcon />,
-  //   children: [
-  //     {
-  //       segment: "sales",
-  //       title: "Sales",
-  //       icon: <DescriptionIcon />,
-  //     },
-  //     {
-  //       segment: "traffic",
-  //       title: "Traffic",
-  //       icon: <DescriptionIcon />,
-  //     },
-  //   ],
-  // },
-  // {
-  //   segment: "integrations",
-  //   title: "Integrations",
-  //   icon: <LayersIcon />,
-  // },
 ];
 
 const BRANDING: Branding = {
@@ -134,8 +105,8 @@ function Actions() {
 }
 
 export default function MainLayout() {
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [pathname, setPathname] = useState(window.location.pathname);
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const navigateRouter = useNavigate();
 
   const router = useMemo<Router>(
@@ -152,7 +123,7 @@ export default function MainLayout() {
 
   return (
     <AppProvider
-      navigation={!isSmallScreen ? NAVIGATION.slice(2) : NAVIGATION}
+      navigation={!isMobile ? NAVIGATION.slice(2) : NAVIGATION}
       router={router}
       theme={theme}
       branding={BRANDING}
@@ -162,7 +133,10 @@ export default function MainLayout() {
           toolbarActions: Actions,
         }}
       >
-        <Box className="p-5">
+        <Box
+          className="p-5"
+          sx={{ maxWidth: isMobile ? "unset" : "calc(100vw - 320px)" }}
+        >
           <Outlet />
         </Box>
       </DashboardLayout>
