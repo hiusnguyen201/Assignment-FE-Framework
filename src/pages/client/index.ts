@@ -1,2 +1,2 @@
 export { default as HomePage } from "./HomePage";
-export { default as PatientsPage } from "./PatientsPage";
+export { default as UsersPage } from "./UsersPage";

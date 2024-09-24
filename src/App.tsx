@@ -1,6 +1,76 @@
+import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
 import { RouterProvider } from "react-router-dom";
 import router from "#src/routers/index";
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#ffffff",
+    },
+    text: {
+      primary: "#3c4043",
+    },
+  },
+  typography: {
+    h1: {
+      color: "#1976d2",
+    },
+    h2: {
+      color: "#1976d2",
+    },
+    h3: {
+      color: "#1976d2",
+    },
+    h4: {
+      color: "#1976d2",
+    },
+    h5: {
+      color: "#1976d2",
+    },
+    h6: {
+      color: "#5f6368",
+    },
+  },
+  components: {
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          boxShadow: "none",
+          borderBottom: "var(--header-border-bottom-width) solid #e0e0e0",
+        },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          color: "#5f6368",
+        },
+      },
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          flexGrow: 0,
+          WebkitFlexGrow: 0,
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          fontSize: "inherit",
+          fontWeight: "inherit",
+        },
+      },
+    },
+  },
+});
+
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  );
 }
