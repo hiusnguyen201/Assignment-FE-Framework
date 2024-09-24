@@ -4,28 +4,25 @@ import router from "#src/routers/index";
 
 const theme = createTheme({
   palette: {
-    primary: {
-      main: "#ffffff",
-    },
     text: {
       primary: "#3c4043",
     },
   },
   typography: {
     h1: {
-      color: "#1976d2",
+      color: "#000000de",
     },
     h2: {
-      color: "#1976d2",
+      color: "#000000de",
     },
     h3: {
-      color: "#1976d2",
+      color: "#000000de",
     },
     h4: {
-      color: "#1976d2",
+      color: "#000000de",
     },
     h5: {
-      color: "#1976d2",
+      color: "#000000de",
     },
     h6: {
       color: "#5f6368",

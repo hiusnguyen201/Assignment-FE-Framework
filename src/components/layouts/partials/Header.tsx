@@ -12,18 +12,22 @@ import { Menu as MenuIcon } from "@mui/icons-material";
 import AccountTooltip from "./AccountTooltip";
 
 import { fakeUser } from "#src/fakeUser";
+import { memo } from "react";
 
 type HeaderProps = {
   className?: string;
   onOpenNav: () => void;
 };
 
-export default function Header({ className, onOpenNav }: HeaderProps) {
+export default memo(function Header({
+  className,
+  onOpenNav,
+}: HeaderProps) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <AppBar className={className} position="fixed">
+    <AppBar className={className + " bg-white"} position="fixed">
       <Toolbar className="px-3 flex justify-between">
         <Box className="flex items-center">
           <Tooltip title="Main Menu">
@@ -44,4 +48,4 @@ export default function Header({ className, onOpenNav }: HeaderProps) {
       </Toolbar>
     </AppBar>
   );
-}
+});

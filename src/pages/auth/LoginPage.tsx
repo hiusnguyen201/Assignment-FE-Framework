@@ -1,7 +1,7 @@
 import { Card, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import LoginForm from "#src/components/forms/LoginForm";
+import { LoginForm } from "#src/components/forms/auth";
 
 export default function LoginPage() {
   return (

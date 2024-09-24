@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 export type NavigationLink = {
   kind?: "link";
   to: string;
-  title: string;
+  title: string | ReactNode;
   icon?: ReactNode;
   action?: ReactNode;
 };

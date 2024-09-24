@@ -1,14 +1,17 @@
 import { Outlet } from "react-router-dom";
-import {  useEffect, useState } from "react";
-import { Avatar, Box, useMediaQuery, useTheme, } from "@mui/material";
+import {  useEffect, useMemo, useState } from "react";
+import { Avatar, Box, IconButton, Typography, useMediaQuery, useTheme, } from "@mui/material";
 import {
   Group as GroupIcon,
   Dashboard as DashboardIcon,
+  Settings as SettingsIcon,
+  Add as AddIcon,
 } from "@mui/icons-material";
 
 import Header from "./partials/Header";
-import Navigation from "./partials/Navigation";
-import type { NavigationItems } from "./partials/Navigation";
+import Navbar from "./partials/Navbar";
+import type { NavigationItems } from "./partials/Navbar";
+import {CreateUserFormModal} from "#src/components/forms/admin";
 
 const USER = {
   name: "Remy Sharp",
@@ -16,58 +19,79 @@ const USER = {
   avatar: "/static/images/avatar/1.jpg",
 };
 
-const NAVIGATION: NavigationItems[] = [
-  {
-    to: "profile",
-    title: USER.name,
-    icon: (
-      <Avatar
-        alt={USER.name}
-        src={USER.avatar}
-        sx={{ width: 30, height: 30 }}
-      />
-    ),
-  },
-  {
-    kind: "divider",
-  },
-  {
-    kind: "header",
-    title: "Main items",
-  },
-  {
-    to: "",
-    title: "Dashboard",
-    icon: <DashboardIcon />,
-  },
-  {
-    to: "users",
-    title: "Users",
-    icon: <GroupIcon />,
-  },
-];
-
 export default function MainLayout() {
-  const [navOpen, setNavOpen] = useState<boolean>(true);
+  const [openNav, setOpenNav] = useState<boolean>(true);
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const theme = useTheme();
   const isDownSmScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const NAVIGATION: NavigationItems[] = useMemo(() =>  [
+    {
+      to: "profile",
+      title: (
+        <Box>
+          <Typography>{USER.name}</Typography>
+          <Typography className="text-xs text-gray-500">{USER.email}</Typography>
+        </Box>
+      ),
+      icon: (
+        <Avatar
+          alt={USER.name}
+          src={USER.avatar}
+          sx={{ width: 32, height: 32 }}
+        />
+      ),
+    },
+    {
+      kind: "divider",
+    },
+    {
+      kind: "header",
+      title: "Main items",
+    },
+    {
+      to: "",
+      title: "Dashboard",
+      icon: <DashboardIcon />,
+    },
+    {
+      to: "users",
+      title: "Users",
+      icon: <GroupIcon />,
+      action: (
+      <IconButton onClick={() => setOpenModal(true)}>
+        <AddIcon />
+      </IconButton>
+      )
+    },
+    {
+      kind: "divider",
+    },
+    {
+      to: "settings",
+      title: "Settings",
+      icon: <SettingsIcon />,
+    }
+  ], []);
+ 
+
   useEffect(() => {
     if(isDownSmScreen) {
-      setNavOpen(false);
+      setOpenNav(false);
     } 
   }, [isDownSmScreen]);
 
   return (
     <Box className="flex">
-      <Header onOpenNav={() => setNavOpen(!navOpen)}/>
-      <Navigation 
-        onCloseNav={() => setNavOpen(!navOpen)} 
+      <CreateUserFormModal open={openModal} onClose={() => setOpenModal(false)} />
+      <Header onOpenNav={() => setOpenNav(!openNav)}/>
+      <Navbar 
+        onCloseNav={() => setOpenNav(!openNav)} 
         sx={{"& .MuiPaper-root": {
           marginTop: isDownSmScreen ?  0 : `var(--main-content-margin-top)`,
           [isDownSmScreen ? "width" : ""]: isDownSmScreen ? "var(--nav-width-mobile)" : ""
         }}} 
-        open={navOpen} 
+        open={openNav} 
         navigation={isDownSmScreen ? NAVIGATION : NAVIGATION.slice(2) }
       />
       <Box sx={{marginTop: isDownSmScreen ?0 :`var(--main-content-margin-top)`}} className="flex-grow">

@@ -22,6 +22,7 @@ import {
   NavigationLink,
 } from "./types";
 import { NavLink } from "react-router-dom";
+import { memo } from "react";
 
 type NavigationProps = {
   navigation: NavigationItems[];
@@ -46,7 +47,7 @@ function isNavigationLink(item: NavigationItems): item is NavigationLink {
   return item.kind === undefined || item.kind === "link";
 }
 
-export default function Navigation({
+export default memo(function Navbar({
   sx,
   navigation,
   open,
@@ -103,7 +104,7 @@ export default function Navigation({
                   return classes;
                 }}
               >
-                <ListItem className="max-h-12 pl-4 pr-5 py-3 hover:bg-[#2021240a] transition duration-200 ease-in-out cursor-pointer">
+                <ListItem className="max-h-12 px-4 py-3 hover:bg-[#2021240a] transition duration-200 ease-in-out cursor-pointer">
                   {navItem.icon && (
                     <ListItemIcon className="min-w-10 flex items-center justify-center">
                       {navItem.icon}
@@ -126,4 +127,4 @@ export default function Navigation({
       </List>
     </Comp>
   );
-}
+});
