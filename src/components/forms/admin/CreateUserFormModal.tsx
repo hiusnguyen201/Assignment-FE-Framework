@@ -23,6 +23,7 @@ import * as yup from "yup";
 import { capitalizeFirstLetter } from "#src/utils/stringUtils";
 import FormModalLayout from "./FormModalLayout";
 import { Gender, PasswordNotice } from "#src/constants";
+import useScreen from "#src/hooks/useScreen";
 
 type ModalProps = {
   open: boolean;
@@ -46,6 +47,8 @@ export default function CreateUserFormModal({
   open,
   onClose,
 }: ModalProps) {
+  const { isMobile } = useScreen();
+
   const {
     register,
     formState: { errors, isValid },
@@ -77,7 +80,7 @@ export default function CreateUserFormModal({
       onClose={onClose}
       rightHeaderAction={
         <Button
-          disabled={!!!isValid}
+          disabled={!isValid}
           variant="contained"
           className="normal-case"
         >
@@ -145,7 +148,7 @@ export default function CreateUserFormModal({
                 <FormLabel id="gender-group-label">Gender</FormLabel>
                 <RadioGroup
                   {...register("gender")}
-                  row
+                  row={!isMobile}
                   aria-labelledby="gender-group-label"
                   name="row-radio-gender-group"
                 >

@@ -4,15 +4,14 @@ import {
   IconButton,
   Typography,
   Box,
-  useMediaQuery,
-  useTheme,
   Tooltip,
 } from "@mui/material";
-import { Menu as MenuIcon } from "@mui/icons-material";
-import AccountTooltip from "./AccountTooltip";
-
-import { fakeUser } from "#src/fakeUser";
 import { memo } from "react";
+import { Menu as MenuIcon } from "@mui/icons-material";
+
+import AccountTooltip from "./AccountTooltip";
+import { fakeUser } from "#src/fakeUser";
+import useScreen from "#src/hooks/useScreen";
 
 type HeaderProps = {
   className?: string;
@@ -23,8 +22,7 @@ export default memo(function Header({
   className,
   onOpenNav,
 }: HeaderProps) {
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const { setUserOpenNav, getUserOpenNav, isMobile } = useScreen();
 
   return (
     <AppBar className={className + " bg-white"} position="fixed">
@@ -32,7 +30,10 @@ export default memo(function Header({
         <Box className="flex items-center">
           <Tooltip title="Main Menu">
             <IconButton
-              onClick={() => onOpenNav()}
+              onClick={() => {
+                onOpenNav();
+                setUserOpenNav(!getUserOpenNav());
+              }}
               className="p-3"
               aria-label="open drawer"
             >
@@ -44,7 +45,7 @@ export default memo(function Header({
             Branding
           </Typography>
         </Box>
-        <Box>{!isSmallScreen && <AccountTooltip user={fakeUser} />}</Box>
+        <Box>{!isMobile && <AccountTooltip user={fakeUser} />}</Box>
       </Toolbar>
     </AppBar>
   );

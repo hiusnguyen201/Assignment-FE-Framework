@@ -1,0 +1,50 @@
+@import "./variables.scss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-size: 16px;
+  color: #000000de;
+  font-family: "Roboto", sans-serif;
+}
+
+#root,
+:root {
+  --nav-width-closed: #{$nav-width-closed};
+  --nav-width-desktop: #{$nav-width-desktop};
+  --nav-width-mobile: #{$nav-width-mobile};
+
+  --header-height-desktop: #{header-height};
+  --header-height-mobile: #{header-height-mobile};
+  --header-border-bottom-width: #{$header-border-bottom-width};
+
+  --main-content-margin-top-desktop: calc(
+    #{$header-height-desktop} + #{$header-border-bottom-width}
+  );
+
+  --form-modal-header-height: #{$form-modal-header-height};
+  --form-modal-content-max-width: #{$form-modal-context-max-width};
+}
+
+.status-badge-active {
+  background-color: $badge-bg-status-active;
+  color: $badge-color-status-active;
+  border: 1px solid $badge-border-color-status-active;
+  --tw-ring-color: none;
+}
+
+.status-badge-inactive {
+  background-color: $badge-bg-status-inactive;
+  color: $badge-color-status-inactive;
+  border: 1px solid $badge-border-color-status-inactive;
+  --tw-ring-color: none;
+}
+
+.status-badge-blocked {
+  background-color: $badge-bg-status-blocked;
+  color: $badge-color-status-blocked;
+  border: 1px solid $badge-border-color-status-blocked;
+  --tw-ring-color: none;
+}

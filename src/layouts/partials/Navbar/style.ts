@@ -2,7 +2,7 @@ import { Drawer as MuiDrawer } from "@mui/material";
 import { Theme, styled, CSSObject } from "@mui/material/styles";
 
 const openedMixin = (theme: Theme): CSSObject => ({
-  width: "var(--nav-width)",
+  width: "var(--nav-width-desktop)",
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
@@ -16,16 +16,16 @@ const closedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: "hidden",
-  width: `calc(${theme.spacing(9)} + 1px)`,
+  width: `var(--nav-width-closed)`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(9)} + 1px)`,
+    width: `var(--nav-width-closed)`,
   },
 });
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
-})(({ theme }) => ({
-  width: "var(--nav-width)",
+})(({ theme, open }) => ({
+  width: `var(--nav-width-${open ? "desktop" : "mobile"})`,
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",

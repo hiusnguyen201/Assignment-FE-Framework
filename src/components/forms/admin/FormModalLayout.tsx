@@ -1,8 +1,9 @@
 import { memo, ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Modal, useMediaQuery, useTheme } from "@mui/material";
+import { Modal } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
+import useScreen from "#src/hooks/useScreen";
 
 type HeaderModalProps = {
   title: string | ReactNode;
@@ -19,9 +20,7 @@ export default memo(function FormModalLayout({
   rightHeaderAction,
   children,
 }: HeaderModalProps) {
-  const theme = useTheme();
-  const isDownSmScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
+  const { isMobile } = useScreen();
   return (
     <AnimatePresence>
       {open && (
@@ -68,7 +67,7 @@ export default memo(function FormModalLayout({
                 <Box
                   className="mx-auto"
                   sx={{
-                    padding: isDownSmScreen ? 1 : 3,
+                    padding: isMobile ? 1 : 3,
                     paddingBottom: 0,
                     maxWidth: `var(--form-modal-content-max-width)`,
                   }}

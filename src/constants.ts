@@ -9,3 +9,9 @@ export enum PasswordNotice {
   VIA_SMS = "Send password via sms",
   SHOW_PASSWORD = "Show password",
 }
+
+export enum AccountStatus {
+  ACTIVE = "Active",
+  INACTIVE = "Inactive",
+  BLOCKED = "Blocked",
+}

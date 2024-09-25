@@ -1,18 +1,16 @@
 import {
   List,
   ListItem,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
   Divider,
   Typography,
-  useTheme,
-  useMediaQuery,
   Theme,
   SxProps,
   Drawer as MuiDrawer,
 } from "@mui/material";
-import { motion } from "framer-motion";
+import { NavLink } from "react-router-dom";
+import { memo } from "react";
 
 import { Drawer } from "./style";
 import {
@@ -21,8 +19,7 @@ import {
   NavigationTitle,
   NavigationLink,
 } from "./types";
-import { NavLink } from "react-router-dom";
-import { memo } from "react";
+import useScreen from "#src/hooks/useScreen";
 
 type NavigationProps = {
   navigation: NavigationItems[];
@@ -53,14 +50,13 @@ export default memo(function Navbar({
   open,
   onCloseNav,
 }: NavigationProps) {
-  const theme = useTheme();
-  const isDownSmScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const Comp = isDownSmScreen ? MuiDrawer : Drawer;
+  const { isMobile } = useScreen();
+  const Comp = isMobile ? MuiDrawer : Drawer;
 
   return (
     <Comp
       sx={sx}
-      variant={isDownSmScreen ? "temporary" : "permanent"}
+      variant={isMobile ? "temporary" : "permanent"}
       open={open}
       onClose={() => onCloseNav()}
     >
@@ -74,7 +70,7 @@ export default memo(function Navbar({
             );
           } else if (isNavigationTitle(navItem)) {
             return (
-              (open || isDownSmScreen) && (
+              (open || isMobile) && (
                 <ListItem
                   className="px-4 pb-1 pt-2 text-xs font-bold"
                   sx={{
