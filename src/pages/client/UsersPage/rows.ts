@@ -1,4 +1,6 @@
-const data = [
+export { rows };
+
+const rows = [
   {
     id: 1,
     avatar: "https://i.pravatar.cc/300",
@@ -38,7 +40,7 @@ const data = [
 ];
 
 for (let i: number = 5; i < 55; i++) {
-  data.push({
+  rows.push({
     id: i,
     name: `John ${i}`,
     avatar: "https://i.pravatar.cc/300",
@@ -49,4 +51,4 @@ for (let i: number = 5; i < 55; i++) {
   });
 }
 
-export default data;
+export default rows;

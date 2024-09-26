@@ -23,6 +23,9 @@ body {
   --main-content-margin-top-desktop: calc(
     #{$header-height-desktop} + #{$header-border-bottom-width}
   );
+  --main-content-margin-top-mobile: calc(
+    #{$header-height-mobile} + #{$header-border-bottom-width}
+  );
 
   --form-modal-header-height: #{$form-modal-header-height};
   --form-modal-content-max-width: #{$form-modal-context-max-width};

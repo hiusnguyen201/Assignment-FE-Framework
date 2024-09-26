@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useState, ReactNode, Fragment } from "react";
 import {
   TextField,
   Button,
@@ -26,8 +27,7 @@ import { Gender, PasswordNotice } from "#src/constants";
 import useScreen from "#src/hooks/useScreen";
 
 type ModalProps = {
-  open: boolean;
-  onClose: () => void;
+  children: ReactNode;
 };
 
 const schema = yup
@@ -43,10 +43,7 @@ const schema = yup
 
 type FormData = yup.InferType<typeof schema>;
 
-export default function CreateUserFormModal({
-  open,
-  onClose,
-}: ModalProps) {
+export default function CreateUserFormModal({ children }: ModalProps) {
   const { isMobile } = useScreen();
 
   const {
@@ -68,6 +65,7 @@ export default function CreateUserFormModal({
 
   return (
     <FormModalLayout
+      anchorEl={children}
       title={
         <Typography
           className="flex items-center gap-1 font-medium"
@@ -76,8 +74,6 @@ export default function CreateUserFormModal({
           <PersonAddIcon /> Create User
         </Typography>
       }
-      open={open}
-      onClose={onClose}
       rightHeaderAction={
         <Button
           disabled={!isValid}

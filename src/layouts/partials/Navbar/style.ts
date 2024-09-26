@@ -1,8 +1,8 @@
 import { Drawer as MuiDrawer } from "@mui/material";
 import { Theme, styled, CSSObject } from "@mui/material/styles";
 
-const openedMixin = (theme: Theme): CSSObject => ({
-  width: "var(--nav-width-desktop)",
+const openedMixin = (theme: Theme, open: boolean): CSSObject => ({
+  width: open ? "var(--nav-width-desktop)" : "var(--nav-width-closed)",
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
@@ -24,7 +24,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
+})(({ theme, open = true }) => ({
   width: `var(--nav-width-${open ? "desktop" : "mobile"})`,
   flexShrink: 0,
   whiteSpace: "nowrap",
@@ -33,8 +33,8 @@ const Drawer = styled(MuiDrawer, {
     {
       props: ({ open }) => open,
       style: {
-        ...openedMixin(theme),
-        "& .MuiDrawer-paper": openedMixin(theme),
+        ...openedMixin(theme, open),
+        "& .MuiDrawer-paper": openedMixin(theme, open),
       },
     },
     {

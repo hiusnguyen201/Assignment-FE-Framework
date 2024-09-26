@@ -8,9 +8,11 @@ import {
   Theme,
   SxProps,
   Drawer as MuiDrawer,
+  Tooltip,
+  Box,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
 import { Drawer } from "./style";
 import {
@@ -52,6 +54,7 @@ export default memo(function Navbar({
 }: NavigationProps) {
   const { isMobile } = useScreen();
   const Comp = isMobile ? MuiDrawer : Drawer;
+  const data = useMemo(() => navigation, [navigation]);
 
   return (
     <Comp
@@ -61,11 +64,11 @@ export default memo(function Navbar({
       onClose={() => onCloseNav()}
     >
       <List className="w-full h-full text-sm font-medium">
-        {navigation.map((navItem, index) => {
+        {data.map((navItem, index) => {
           if (isNavigationDivider(navItem)) {
             return (
               <ListItem className="p-0 my-2" key={index}>
-                <Divider className="h-[1px] w-full" />
+                <Divider className="w-full" />
               </ListItem>
             );
           } else if (isNavigationTitle(navItem)) {
@@ -91,31 +94,47 @@ export default memo(function Navbar({
             );
           } else if (isNavigationLink(navItem)) {
             return (
-              <NavLink
-                key={index}
-                to={`/${navItem.to}`}
-                className={({ isActive }) => {
-                  let classes: string = "flex items-center";
-                  classes += isActive ? " bg-[#e8f0fe]" : "";
-                  return classes;
-                }}
-              >
-                <ListItem className="max-h-12 px-4 py-3 hover:bg-[#2021240a] transition duration-200 ease-in-out cursor-pointer">
-                  {navItem.icon && (
-                    <ListItemIcon className="min-w-10 flex items-center justify-center">
-                      {navItem.icon}
-                    </ListItemIcon>
-                  )}
-                  <ListItemText className="ml-5 my-0">
-                    {navItem.title}
-                  </ListItemText>
-                  {navItem.action && (
-                    <ListItemIcon className="min-w-10 flex items-center justify-center">
-                      {navItem.action}
-                    </ListItemIcon>
-                  )}
-                </ListItem>
-              </NavLink>
+              <Box key={index} className="w-full px-2">
+                <NavLink
+                  to={`/${navItem.to}`}
+                  className={({ isActive }) => {
+                    let classes: string = "flex items-center rounded-md";
+                    classes += isActive ? " bg-[#e8f0fe]" : "";
+                    return classes;
+                  }}
+                >
+                  <Tooltip
+                    disableFocusListener={open}
+                    disableTouchListener={open}
+                    disableHoverListener={open}
+                    disableInteractive={open}
+                    placement="right"
+                    title={navItem.title}
+                  >
+                    <ListItem className="max-h-12 p-3 hover:bg-[#2021240a] rounded-md transition duration-200 ease-in-out cursor-pointer">
+                      {navItem.icon && (
+                        <ListItemIcon className="min-w-0 flex items-center justify-center">
+                          {navItem.icon}
+                        </ListItemIcon>
+                      )}
+
+                      <Box className="flex items-center w-full">
+                        <ListItemText className="ml-5 flex-grow my-0">
+                          {navItem.title}
+                        </ListItemText>
+                        {navItem.action && (
+                          <ListItemIcon
+                            className="min-w-0"
+                            onClick={(e) => e.preventDefault()}
+                          >
+                            {navItem.action}
+                          </ListItemIcon>
+                        )}
+                      </Box>
+                    </ListItem>
+                  </Tooltip>
+                </NavLink>
+              </Box>
             );
           }
           return null;

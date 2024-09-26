@@ -1,3 +1,4 @@
+import { memo } from "react";
 import {
   AppBar,
   Toolbar,
@@ -5,13 +6,19 @@ import {
   Typography,
   Box,
   Tooltip,
+  Avatar,
+  Stack,
 } from "@mui/material";
-import { memo } from "react";
-import { Menu as MenuIcon } from "@mui/icons-material";
+import {
+  Menu as MenuIcon,
+  Settings as SettingsIcon,
+  Add as AddIcon,
+  Logout as LogoutIcon,
+} from "@mui/icons-material";
 
-import AccountTooltip from "./AccountTooltip";
 import { fakeUser } from "#src/fakeUser";
 import useScreen from "#src/hooks/useScreen";
+import MenuPopper, { MenuPopperItem } from "#src/components/MenuPopper";
 
 type HeaderProps = {
   className?: string;
@@ -22,7 +29,38 @@ export default memo(function Header({
   className,
   onOpenNav,
 }: HeaderProps) {
-  const { setUserOpenNav, getUserOpenNav, isMobile } = useScreen();
+  const { setUserOpenNav, getUserOpenNav } = useScreen();
+  const accountMenuItems: MenuPopperItem[] = [
+    {
+      title: (
+        <Box className="flex items-center gap-3">
+          <Avatar src={fakeUser.avatar} alt={fakeUser.name} />
+          <Stack>
+            <Typography>{fakeUser.name}</Typography>
+            <Typography fontSize={"small"}>{fakeUser.email}</Typography>
+          </Stack>
+        </Box>
+      ),
+    },
+    {
+      kind: "divider",
+    },
+    {
+      icon: <SettingsIcon />,
+      title: "Settings",
+    },
+    {
+      icon: <AddIcon />,
+      title: "Add another account",
+    },
+    {
+      kind: "divider",
+    },
+    {
+      icon: <LogoutIcon />,
+      title: "Logout",
+    },
+  ];
 
   return (
     <AppBar className={className + " bg-white"} position="fixed">
@@ -45,7 +83,19 @@ export default memo(function Header({
             Branding
           </Typography>
         </Box>
-        <Box>{!isMobile && <AccountTooltip user={fakeUser} />}</Box>
+        <Box>
+          <MenuPopper items={accountMenuItems}>
+            <Tooltip title="Account settings">
+              <IconButton size="small" color="inherit">
+                <Avatar
+                  src={fakeUser.avatar}
+                  alt={fakeUser.name}
+                  sx={{ width: 30, height: 30 }}
+                />
+              </IconButton>
+            </Tooltip>
+          </MenuPopper>
+        </Box>
       </Toolbar>
     </AppBar>
   );

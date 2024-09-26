@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import {
   Group as GroupIcon,
@@ -20,6 +20,59 @@ const USER = {
   avatar: "/static/images/avatar/1.jpg",
 };
 
+const NAVIGATION: NavigationItems[] = [
+  {
+    to: "profile",
+    title: (
+      <Box>
+        <Typography>{USER.name}</Typography>
+        <Typography className="text-xs text-gray-500">
+          {USER.email}
+        </Typography>
+      </Box>
+    ),
+    icon: (
+      <Avatar
+        alt={USER.name}
+        src={USER.avatar}
+        sx={{ width: 32, height: 32 }}
+      />
+    ),
+  },
+  {
+    kind: "divider",
+  },
+  {
+    kind: "header",
+    title: "Main items",
+  },
+  {
+    to: "",
+    title: "Dashboard",
+    icon: <DashboardIcon />,
+  },
+  {
+    to: "users",
+    title: "Users",
+    icon: <GroupIcon />,
+    action: (
+      <CreateUserFormModal>
+        <IconButton>
+          <AddIcon />
+        </IconButton>
+      </CreateUserFormModal>
+    ),
+  },
+  {
+    kind: "divider",
+  },
+  {
+    to: "settings",
+    title: "Settings",
+    icon: <SettingsIcon />,
+  },
+];
+
 export default function MainLayout() {
   const { isMobile, isDesktop, isTablet, getUserOpenNav, setUserOpenNav } =
     useScreen();
@@ -31,61 +84,6 @@ export default function MainLayout() {
     setUserOpenNav(true);
     return getUserOpenNav();
   });
-  const [openModal, setOpenModal] = useState<boolean>(false);
-
-  const NAVIGATION: NavigationItems[] = useMemo(
-    () => [
-      {
-        to: "profile",
-        title: (
-          <Box>
-            <Typography>{USER.name}</Typography>
-            <Typography className="text-xs text-gray-500">
-              {USER.email}
-            </Typography>
-          </Box>
-        ),
-        icon: (
-          <Avatar
-            alt={USER.name}
-            src={USER.avatar}
-            sx={{ width: 32, height: 32 }}
-          />
-        ),
-      },
-      {
-        kind: "divider",
-      },
-      {
-        kind: "header",
-        title: "Main items",
-      },
-      {
-        to: "",
-        title: "Dashboard",
-        icon: <DashboardIcon />,
-      },
-      {
-        to: "users",
-        title: "Users",
-        icon: <GroupIcon />,
-        action: (
-          <IconButton onClick={() => setOpenModal(true)}>
-            <AddIcon />
-          </IconButton>
-        ),
-      },
-      {
-        kind: "divider",
-      },
-      {
-        to: "settings",
-        title: "Settings",
-        icon: <SettingsIcon />,
-      },
-    ],
-    []
-  );
 
   useEffect(() => {
     if (isTablet || (isMobile && openNav === true)) {
@@ -101,10 +99,6 @@ export default function MainLayout() {
 
   return (
     <Box className="flex">
-      <CreateUserFormModal
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-      />
       <Header onOpenNav={() => setOpenNav(!openNav)} />
       <Navbar
         onCloseNav={() => setOpenNav(!openNav)}
@@ -121,18 +115,20 @@ export default function MainLayout() {
         open={openNav}
         navigation={isMobile ? NAVIGATION : NAVIGATION.slice(2)}
       />
+
       <Box
+        component="main"
         sx={{
           marginTop: `var(--main-content-margin-top-${
             isMobile ? "mobile" : "desktop"
           })`,
-          maxWidth: !isMobile
-            ? `calc(100vw - var(--nav-width-${
-                isTablet ? "closed" : "desktop"
-              }`
+          width: !isMobile
+            ? `calc(100% - var(--nav-width-${
+                isTablet || !openNav ? "closed" : "desktop"
+              }))`
             : "100%",
         }}
-        className="flex-grow"
+        className={`flex-grow ${isMobile ? "p-3" : "px-6 py-4"} `}
       >
         <Outlet />
       </Box>
