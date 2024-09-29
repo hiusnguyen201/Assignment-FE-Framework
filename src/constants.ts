@@ -15,3 +15,8 @@ export enum AccountStatus {
   INACTIVE = "Inactive",
   BLOCKED = "Blocked",
 }
+
+export enum Role {
+  ADMIN = "Admin",
+  CUSTOMER = "Customer",
+}

@@ -25,10 +25,7 @@ type HeaderProps = {
   onOpenNav: () => void;
 };
 
-export default memo(function Header({
-  className,
-  onOpenNav,
-}: HeaderProps) {
+export default memo(function Header({ onOpenNav }: HeaderProps) {
   const { setUserOpenNav, getUserOpenNav } = useScreen();
   const accountMenuItems: MenuPopperItem[] = [
     {
@@ -63,7 +60,7 @@ export default memo(function Header({
   ];
 
   return (
-    <AppBar className={className + " bg-white"} position="fixed">
+    <AppBar position="fixed">
       <Toolbar className="px-3 flex justify-between">
         <Box className="flex items-center">
           <Tooltip title="Main Menu">

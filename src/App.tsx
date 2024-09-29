@@ -34,6 +34,7 @@ const theme = createTheme({
         root: {
           boxShadow: "none",
           borderBottom: "var(--header-border-bottom-width) solid #e0e0e0",
+          backgroundColor: "#ffffff",
         },
       },
     },
@@ -57,6 +58,14 @@ const theme = createTheme({
         root: {
           fontSize: "inherit",
           fontWeight: "inherit",
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#E0E0E0",
+          width: "100%",
         },
       },
     },

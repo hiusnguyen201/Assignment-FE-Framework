@@ -1,57 +1,46 @@
 import { Fragment, useState } from "react";
-import { useGridApiRef } from "@mui/x-data-grid";
-import { Box, IconButton, Button } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import {
-  Window as WindowIcon,
   ViewList as ViewListIcon,
+  Window as WindowIcon,
 } from "@mui/icons-material";
 
 import { columns } from "./columns";
 import { rows } from "./rows";
-import DataListTable, {
-  getAutosizeOptions,
-} from "#src/components/DataListTable";
+import DataListTable from "#src/components/DataListTable";
+import DataGridCard from "#src/components/DataGridCard";
+import useScreen from "#src/hooks/useScreen";
 
 export default function UsersPage() {
-  const apiRef = useGridApiRef();
-  const [tableType, setTableType] = useState<"list" | "grid">("list");
-  const autosizeKeys = columns.map((column) => column.field);
+  const [tableType, setTableType] = useState<"list" | "grid">("grid");
+
   return (
     <Fragment>
-      <Box className="mb-3 flex items-center gap-2">
-        <IconButton
-          onClick={() => setTableType("list")}
-          className={`${tableType === "list" ? "text-blue-500" : ""}`}
-        >
-          <ViewListIcon />
-        </IconButton>
-        <IconButton
-          onClick={() => setTableType("grid")}
-          className={`${tableType === "grid" ? "text-blue-500" : ""}`}
-        >
-          <WindowIcon />
-        </IconButton>
-        <Button
-          className="normal-case"
-          variant="contained"
-          onClick={() =>
-            apiRef.current.autosizeColumns(
-              getAutosizeOptions(autosizeKeys)
-            )
-          }
-        >
-          AutoSize Columns
-        </Button>
+      <Box className="mb-2 flex items-center gap-2">
+        <Tooltip title="List">
+          <IconButton
+            className={`${tableType === "list" ? "text-blue-500" : ""}`}
+            onClick={() => setTableType("list")}
+          >
+            <ViewListIcon />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title="Grid">
+          <IconButton
+            className={`${tableType === "grid" ? "text-blue-500" : ""}`}
+            onClick={() => setTableType("grid")}
+          >
+            <WindowIcon />
+          </IconButton>
+        </Tooltip>
       </Box>
 
-      <Box
-        sx={{
-          height: 520,
-          width: "100%",
-        }}
-      >
-        <DataListTable apiRef={apiRef} rows={rows} columns={columns} />
-      </Box>
+      {tableType === "list" ? (
+        <DataListTable rows={rows} columns={columns} />
+      ) : (
+        <DataGridCard />
+      )}
     </Fragment>
   );
 }
