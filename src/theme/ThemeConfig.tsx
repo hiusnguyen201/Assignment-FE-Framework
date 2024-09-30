@@ -3,7 +3,7 @@ import {
   createTheme,
   StyledEngineProvider,
   CssBaseline,
-  ThemeProvider,
+  ThemeProvider as MuiThemeProvider,
 } from "@mui/material";
 import useTheme from "#src/hooks/useTheme";
 import GlobalStyles from "./GlobalStyles";
@@ -74,11 +74,7 @@ const styledTheme = {
   },
 };
 
-export default function ThemeConfig({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default function ThemeConfig({ children }: { children: ReactNode }) {
   const { themeMode } = useTheme();
 
   const themeOptions = useMemo(
@@ -98,10 +94,10 @@ export default function ThemeConfig({
 
   return (
     <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>
+      <MuiThemeProvider theme={theme}>
         <CssBaseline enableColorScheme />
         <GlobalStyles>{children}</GlobalStyles>
-      </ThemeProvider>
+      </MuiThemeProvider>
     </StyledEngineProvider>
   );
 }

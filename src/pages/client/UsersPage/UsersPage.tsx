@@ -19,7 +19,7 @@ import useScreen from "#src/hooks/useScreen";
 import { CreateUserFormModal } from "#src/components/forms/admin";
 
 export default function UsersPage() {
-  const [tableType, setTableType] = useState<"list" | "grid">("grid");
+  const [tableType, setTableType] = useState<"list" | "grid">("list");
   const { isMobile } = useScreen();
 
   return (
@@ -77,10 +77,7 @@ export default function UsersPage() {
         </Box>
       </Box>
 
-      <DataListTable
-        rows={rows}
-        columns={isMobile ? mobileColumns : columns}
-      />
+      <DataListTable rows={rows} columns={isMobile ? mobileColumns : columns} />
     </Fragment>
   );
 }

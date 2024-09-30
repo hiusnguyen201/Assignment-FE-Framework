@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { memo, useMemo } from "react";
+import { memo, useCallback, useMemo } from "react";
 import {
   AppBar,
   Toolbar,
@@ -34,8 +34,13 @@ type HeaderProps = {
 
 export default memo(function Header({ onOpenNav }: HeaderProps) {
   const { setUserOpenNav, getUserOpenNav, isMobile } = useScreen();
-  const { themeMode, setThemeMode } = useTheme();
-  console.log(useTheme());
+  const { setThemeMode, isDark } = useTheme();
+
+  const toggleTheme = useCallback(() => {
+    setThemeMode((prevMode) =>
+      prevMode === ThemeMode.LIGHT ? ThemeMode.DARK : ThemeMode.LIGHT
+    );
+  }, [setThemeMode]);
 
   const accountMenuItems: MenuPopperItem[] = useMemo(
     () => [
@@ -54,20 +59,9 @@ export default memo(function Header({ onOpenNav }: HeaderProps) {
         kind: "divider",
       },
       {
-        icon:
-          themeMode !== ThemeMode.DARK ? (
-            <DarkModeIcon />
-          ) : (
-            <LightModeIcon />
-          ),
-        title: themeMode !== ThemeMode.DARK ? "Dark Mode" : "Light Mode",
-        onClick: () => {
-          if (themeMode === ThemeMode.DARK) {
-            setThemeMode(ThemeMode.LIGHT);
-          } else {
-            setThemeMode(ThemeMode.DARK);
-          }
-        },
+        icon: isDark ? <LightModeIcon /> : <DarkModeIcon />,
+        title: isDark ? "Light Mode" : "Dark Mode",
+        onClick: toggleTheme,
       },
       {
         icon: <SettingsIcon />,
@@ -85,7 +79,7 @@ export default memo(function Header({ onOpenNav }: HeaderProps) {
         title: "Logout",
       },
     ],
-    []
+    [isDark, toggleTheme]
   );
 
   return (
@@ -107,12 +101,7 @@ export default memo(function Header({ onOpenNav }: HeaderProps) {
 
           {!isMobile && (
             <Link to="/">
-              <Typography
-                className="px-3"
-                variant="h1"
-                noWrap
-                component="div"
-              >
+              <Typography className="px-3" variant="h1" noWrap component="div">
                 Branding
               </Typography>
             </Link>

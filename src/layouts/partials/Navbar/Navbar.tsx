@@ -31,21 +31,15 @@ type NavigationProps = {
   onCloseNav: () => void;
 };
 
-function isNavigationDivider(
-  item: NavigationItems
-): item is NavigationDivider {
+function isNavigationDivider(item: NavigationItems): item is NavigationDivider {
   return item.kind === "divider";
 }
 
-function isNavigationTitle(
-  item: NavigationItems
-): item is NavigationTitle {
+function isNavigationTitle(item: NavigationItems): item is NavigationTitle {
   return item.kind === "header";
 }
 
-function isNavigationBrand(
-  item: NavigationItems
-): item is NavigationBrand {
+function isNavigationBrand(item: NavigationItems): item is NavigationBrand {
   return item.kind === "brand";
 }
 
@@ -145,7 +139,7 @@ export default memo(function Navbar({
             );
           } else if (isNavigationBrand(navItem)) {
             return (
-              <ListItem>
+              <ListItem key={index}>
                 <Link to={`/${navItem.to}`}>{navItem.title}</Link>
               </ListItem>
             );

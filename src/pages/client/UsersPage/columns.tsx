@@ -26,6 +26,7 @@ import {
   Visibility as VisibilityIcon,
   PhoneAndroid as PhoneAndroidIcon,
   Badge as BadgeIcon,
+  Email as EmailIcon,
 } from "@mui/icons-material";
 
 import { AccountStatus, Role } from "#src/constants";
@@ -206,14 +207,8 @@ function renderDetailsCell(params: GridRenderCellParams): ReactNode {
       <Box className="px-2 py-3 inline-flex flex-col items-start gap-2 w-full">
         <Box className="flex items-center justify-between w-full">
           <Box className="flex-grow flex items-center gap-2">
-            <Avatar
-              sx={{ width: 32, height: 32 }}
-              src={params.row.avatar}
-            />
-            <Box>
-              <Typography>{params.row.name}</Typography>
-              <Typography fontSize="small">{params.row.email}</Typography>
-            </Box>
+            <Avatar sx={{ width: 32, height: 32 }} src={params.row.avatar} />
+            <Typography>{params.row.name}</Typography>
           </Box>
 
           <MenuPopper items={items}>
@@ -230,6 +225,11 @@ function renderDetailsCell(params: GridRenderCellParams): ReactNode {
         >
           <CircleIcon sx={{ width: 6, height: 6 }} />
           <Typography>{params.row.status}</Typography>
+        </Box>
+
+        <Box className="flex items-center gap-2">
+          <EmailIcon fontSize="small" />
+          <Typography>{params.row.email}</Typography>
         </Box>
 
         <Box className="flex items-center gap-2">

@@ -4,37 +4,40 @@ import {
   ReactNode,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from "react";
 import { ThemeMode } from "#src/constants";
 
 type ThemeContextType = {
   themeMode: string;
   setThemeMode: Dispatch<SetStateAction<string>>;
-  isDark: Boolean;
+  isDark: boolean;
 };
 
-const ThemeContext = createContext<ThemeContextType>({
+export const ThemeContext = createContext<ThemeContextType>({
   themeMode: ThemeMode.LIGHT,
   setThemeMode: () => {},
   isDark: false,
 });
 
-function ThemeProvider({ children }: { children: ReactNode }) {
+export function ThemeProvider({ children }: { children: ReactNode }) {
   const [themeMode, setThemeMode] = useState(
     localStorage.getItem("theme") || ThemeMode.LIGHT
   );
 
-  const values = {
+  useEffect(() => {
+    localStorage.setItem("theme", themeMode);
+  }, [themeMode]);
+
+  const isDark = themeMode === ThemeMode.DARK;
+
+  const value = {
     themeMode,
     setThemeMode,
-    isDark: themeMode === ThemeMode.DARK,
+    isDark,
   };
 
   return (
-    <ThemeContext.Provider value={values}>
-      {children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 }
-
-export { ThemeContext, ThemeProvider };

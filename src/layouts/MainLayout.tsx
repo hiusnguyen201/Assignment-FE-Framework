@@ -9,8 +9,7 @@ import {
 } from "@mui/icons-material";
 
 import Header from "./partials/Header";
-import Navbar from "./partials/Navbar";
-import type { NavigationItems } from "./partials/Navbar";
+import Navbar, { NavigationItems } from "./partials/Navbar";
 import { CreateUserFormModal } from "#src/components/forms/admin";
 import useScreen from "#src/hooks/useScreen";
 
@@ -34,9 +33,7 @@ const NAVIGATION: NavigationItems[] = [
     title: (
       <Box>
         <Typography>{USER.name}</Typography>
-        <Typography className="text-xs text-gray-500">
-          {USER.email}
-        </Typography>
+        <Typography className="text-xs text-gray-500">{USER.email}</Typography>
       </Box>
     ),
     icon: (
@@ -96,11 +93,7 @@ export default function MainLayout() {
   useEffect(() => {
     if (isTablet || (isMobile && openNav === true)) {
       setOpenNav(false);
-    } else if (
-      isDesktop &&
-      openNav === false &&
-      getUserOpenNav() === true
-    ) {
+    } else if (isDesktop && openNav === false && getUserOpenNav() === true) {
       setOpenNav(true);
     }
   }, [isTablet, isMobile, isDesktop]);
@@ -112,9 +105,7 @@ export default function MainLayout() {
         onCloseNav={() => setOpenNav(!openNav)}
         sx={{
           "& .MuiPaper-root": {
-            marginTop: isMobile
-              ? 0
-              : `var(--main-content-margin-top-desktop)`,
+            marginTop: isMobile ? 0 : `var(--main-content-margin-top-desktop)`,
             [isMobile ? "width" : ""]: isMobile
               ? "var(--nav-width-mobile)"
               : "",
@@ -136,9 +127,7 @@ export default function MainLayout() {
               }))`
             : "100%",
         }}
-        className={`flex-grow ${
-          isMobile ? "py-3 px-4" : "px-6 py-4"
-        } mb-3`}
+        className={`flex-grow ${isMobile ? "py-3 px-4" : "px-6 py-4"} mb-3`}
       >
         <Outlet />
       </Box>
