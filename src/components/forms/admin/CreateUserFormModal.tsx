@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useState, ReactNode, Fragment } from "react";
+import { useState, ReactNode, Fragment, memo } from "react";
 import {
   TextField,
   Button,
@@ -43,7 +43,9 @@ const schema = yup
 
 type FormData = yup.InferType<typeof schema>;
 
-export default function CreateUserFormModal({ children }: ModalProps) {
+export default memo(function CreateUserFormModal({
+  children,
+}: ModalProps) {
   const { isMobile } = useScreen();
 
   const {
@@ -237,4 +239,4 @@ export default function CreateUserFormModal({ children }: ModalProps) {
       </form>
     </FormModalLayout>
   );
-}
+});

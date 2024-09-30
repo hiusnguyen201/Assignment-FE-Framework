@@ -3,11 +3,11 @@ import {
   DataGrid,
   GridColDef,
   GridPaginationModel,
-  GridApiCommon,
-  GridAutosizeOptions,
 } from "@mui/x-data-grid";
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
+import useScreen from "#src/hooks/useScreen";
+import { ThemeMode } from "#src/constants";
 
 type DataListTableProps<T extends { [key: string]: any }> = {
   rows: T[];
@@ -20,9 +20,10 @@ export default function DataListTable<T extends { [key: string]: any }>({
   columns,
   loading = false,
 }: DataListTableProps<T>): React.JSX.Element {
+  const { isMobile } = useScreen();
   const [paginationModel, setPaginationModel] =
     useState<GridPaginationModel>({
-      pageSize: 10,
+      pageSize: 25,
       page: 0,
     });
 
@@ -31,9 +32,11 @@ export default function DataListTable<T extends { [key: string]: any }>({
 
   return (
     <DataGrid
+      className="mb-3"
       sx={{
-        height: 520,
+        overflow: "auto",
         width: "100%",
+        height: isMobile ? "auto" : 500,
       }}
       rows={rowData}
       columns={columnData}
@@ -41,33 +44,26 @@ export default function DataListTable<T extends { [key: string]: any }>({
         noRowsOverlay: CustomNoRowsOverlay,
         noResultsOverlay: CustomNoResultsOverlay,
       }}
-      disableRowSelectionOnClick
-      disableColumnMenu
-      disableColumnSorting
-      disableColumnResize
-      checkboxSelection
-      hideFooter
-      pageSizeOptions={[10, 25, 50, 100]}
-      paginationModel={paginationModel}
-      onPaginationModelChange={setPaginationModel}
-      autosizeOptions={getAutosizeOptions()}
-      loading={loading}
       slotProps={{
         loadingOverlay: {
           variant: "skeleton",
         },
       }}
+      checkboxSelection={false}
+      autoHeight={isMobile}
+      getRowHeight={() => (isMobile ? "auto" : undefined)}
+      columnHeaderHeight={isMobile ? 0 : undefined}
+      pageSizeOptions={[10, 25, 50, 100]}
+      paginationModel={paginationModel}
+      onPaginationModelChange={setPaginationModel}
+      loading={loading}
+      disableRowSelectionOnClick
+      disableColumnMenu
+      disableColumnSorting
+      disableColumnResize
+      hideFooter
     />
   );
-}
-
-export function getAutosizeOptions(keys?: string[]): GridAutosizeOptions {
-  return {
-    includeHeaders: true,
-    includeOutliers: true,
-    columns: keys,
-    expand: true,
-  };
 }
 
 const StyledGridOverlay = styled("div")<{ theme?: any }>(({ theme }) => ({
@@ -78,13 +74,13 @@ const StyledGridOverlay = styled("div")<{ theme?: any }>(({ theme }) => ({
   height: "100%",
   "& .no-rows-primary": {
     fill: "#3D4751",
-    ...(theme?.palette?.mode === "light" && {
+    ...(theme?.palette?.mode === ThemeMode.LIGHT && {
       fill: "#AEB8C2",
     }),
   },
   "& .no-rows-secondary": {
     fill: "#1D2126",
-    ...(theme?.palette?.mode === "light" && {
+    ...(theme?.palette?.mode === ThemeMode.DARK && {
       fill: "#E8EAED",
     }),
   },

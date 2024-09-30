@@ -11,7 +11,7 @@ import {
   Tooltip,
   Box,
 } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { memo, useMemo } from "react";
 
 import { Drawer } from "./style";
@@ -20,6 +20,7 @@ import {
   NavigationDivider,
   NavigationTitle,
   NavigationLink,
+  NavigationBrand,
 } from "./types";
 import useScreen from "#src/hooks/useScreen";
 
@@ -40,6 +41,12 @@ function isNavigationTitle(
   item: NavigationItems
 ): item is NavigationTitle {
   return item.kind === "header";
+}
+
+function isNavigationBrand(
+  item: NavigationItems
+): item is NavigationBrand {
+  return item.kind === "brand";
 }
 
 function isNavigationLink(item: NavigationItems): item is NavigationLink {
@@ -136,7 +143,14 @@ export default memo(function Navbar({
                 </NavLink>
               </Box>
             );
+          } else if (isNavigationBrand(navItem)) {
+            return (
+              <ListItem>
+                <Link to={`/${navItem.to}`}>{navItem.title}</Link>
+              </ListItem>
+            );
           }
+
           return null;
         })}
       </List>

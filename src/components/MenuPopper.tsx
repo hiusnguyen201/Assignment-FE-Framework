@@ -18,11 +18,16 @@ type MenuPopperItem = MenuItemRow | MenuItemDivider;
 type MenuPopperProps = {
   items: MenuPopperItem[];
   children: React.JSX.Element;
+  itemMinWidth?: number;
 };
 
 export type { MenuPopperItem };
 
-export default function MenuPopper({ items, children }: MenuPopperProps) {
+export default function MenuPopper({
+  items,
+  children,
+  itemMinWidth,
+}: MenuPopperProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const data = useMemo(() => items, [items]);
 
@@ -58,19 +63,22 @@ export default function MenuPopper({ items, children }: MenuPopperProps) {
 
           const data = item as MenuItemRow;
           return (
-            <MenuItem
-              className="py-2"
+            <Link
               key={index}
-              onClick={(e) => {
-                if (data.onClick) {
-                  e.preventDefault();
-                  data.onClick();
-                }
-              }}
+              className="w-full flex items-center"
+              to={data.to ?? ""}
             >
-              <Link
-                className="w-full flex items-center"
-                to={data.to ?? ""}
+              <MenuItem
+                sx={{
+                  minWidth: itemMinWidth,
+                }}
+                className="py-2.5 w-full"
+                onClick={(e) => {
+                  if (data.onClick) {
+                    e.preventDefault();
+                    data.onClick();
+                  }
+                }}
               >
                 {data.icon && (
                   <ListItemIcon className="min-w-0 mr-2">
@@ -78,8 +86,8 @@ export default function MenuPopper({ items, children }: MenuPopperProps) {
                   </ListItemIcon>
                 )}
                 {data.title}
-              </Link>
-            </MenuItem>
+              </MenuItem>
+            </Link>
           );
         })}
       </Menu>

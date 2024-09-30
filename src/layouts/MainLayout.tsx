@@ -22,6 +22,14 @@ const USER = {
 
 const NAVIGATION: NavigationItems[] = [
   {
+    to: "",
+    title: "BRANDING",
+    kind: "brand",
+  },
+  {
+    kind: "divider",
+  },
+  {
     to: "profile",
     title: (
       <Box>
@@ -113,7 +121,7 @@ export default function MainLayout() {
           },
         }}
         open={openNav}
-        navigation={isMobile ? NAVIGATION : NAVIGATION.slice(2)}
+        navigation={isMobile ? NAVIGATION : NAVIGATION.slice(4)}
       />
 
       <Box
@@ -128,7 +136,9 @@ export default function MainLayout() {
               }))`
             : "100%",
         }}
-        className={`flex-grow ${isMobile ? "p-3" : "px-6 py-4"} `}
+        className={`flex-grow ${
+          isMobile ? "py-3 px-4" : "px-6 py-4"
+        } mb-3`}
       >
         <Outlet />
       </Box>

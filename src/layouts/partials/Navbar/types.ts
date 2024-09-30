@@ -17,7 +17,14 @@ export type NavigationDivider = {
   kind: "divider";
 };
 
+export type NavigationBrand = {
+  kind: "brand";
+  to: string;
+  title: string | ReactNode;
+};
+
 export type NavigationItems =
   | NavigationLink
   | NavigationTitle
-  | NavigationDivider;
+  | NavigationDivider
+  | NavigationBrand;

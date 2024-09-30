@@ -20,3 +20,8 @@ export enum Role {
   ADMIN = "Admin",
   CUSTOMER = "Customer",
 }
+
+export enum ThemeMode {
+  DARK = "dark",
+  LIGHT = "light",
+}

@@ -1,8 +1,6 @@
 import { Grid2 as Grid, Card, Typography, useTheme } from "@mui/material";
-import { motion } from "framer-motion";
 
 export default function DataGridCard() {
-  const theme = useTheme();
   const items = [1, 2, 3, 4];
 
   return (

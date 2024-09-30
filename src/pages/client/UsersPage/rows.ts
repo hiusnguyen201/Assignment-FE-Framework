@@ -43,7 +43,7 @@ const rows = [
   },
 ];
 
-for (let i: number = 5; i < 55; i++) {
+for (let i: number = 5; i < 15; i++) {
   rows.push({
     id: i,
     name: `John ${i}`,
