@@ -23,7 +23,7 @@ import {
 } from "@mui/icons-material";
 
 import { fakeUser } from "#src/fakeUser";
-import { useScreen, useTheme } from "#src/hooks";
+import { useScreen, useSettings } from "#src/hooks";
 import MenuPopper, { MenuPopperItem } from "#src/components/MenuPopper";
 import { ThemeMode } from "#src/constants";
 
@@ -33,8 +33,8 @@ type HeaderProps = {
 };
 
 export default memo(function Header({ onOpenNav }: HeaderProps) {
-  const { setUserOpenNav, getUserOpenNav, isMobile } = useScreen();
-  const { setThemeMode, isDark } = useTheme();
+  const { setUserOpenNav, isOpenNav, isMobile } = useScreen();
+  const { setThemeMode, isDark } = useSettings();
 
   const toggleTheme = useCallback(() => {
     setThemeMode((prevMode) =>
@@ -90,7 +90,7 @@ export default memo(function Header({ onOpenNav }: HeaderProps) {
             <IconButton
               onClick={() => {
                 onOpenNav();
-                setUserOpenNav(!getUserOpenNav());
+                setUserOpenNav(!isOpenNav);
               }}
               className="p-3"
               aria-label="open drawer"
@@ -101,7 +101,12 @@ export default memo(function Header({ onOpenNav }: HeaderProps) {
 
           {!isMobile && (
             <Link to="/">
-              <Typography className="px-3" variant="h1" noWrap component="div">
+              <Typography
+                className="px-3"
+                variant="h1"
+                noWrap
+                component="div"
+              >
                 Branding
               </Typography>
             </Link>

@@ -22,6 +22,12 @@ export enum Role {
 }
 
 export enum ThemeMode {
+  // must normalize
   DARK = "dark",
   LIGHT = "light",
+}
+
+export enum DataTableType {
+  LIST = "List",
+  GRID = "Grid",
 }

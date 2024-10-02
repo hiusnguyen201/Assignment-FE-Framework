@@ -18,14 +18,9 @@ body {
 
   --header-height-desktop: #{header-height};
   --header-height-mobile: #{header-height-mobile};
-  --header-border-bottom-width: #{$header-border-bottom-width};
 
-  --main-content-margin-top-desktop: calc(
-    #{$header-height-desktop} + #{$header-border-bottom-width}
-  );
-  --main-content-margin-top-mobile: calc(
-    #{$header-height-mobile} + #{$header-border-bottom-width}
-  );
+  --main-content-margin-top-desktop: calc(#{$header-height-desktop});
+  --main-content-margin-top-mobile: calc(#{$header-height-mobile});
 
   --form-modal-header-height: #{$form-modal-header-height};
   --form-modal-content-max-width: #{$form-modal-context-max-width};

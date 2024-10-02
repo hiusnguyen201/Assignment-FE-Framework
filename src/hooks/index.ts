@@ -1,2 +1,2 @@
 export { default as useScreen } from "./useScreen";
-export { default as useTheme } from "./useTheme";
+export { default as useSettings } from "./useSettings";

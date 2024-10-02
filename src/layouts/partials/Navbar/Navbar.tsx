@@ -9,6 +9,7 @@ import {
   SxProps,
   Drawer as MuiDrawer,
   Tooltip,
+  useTheme as useThemeMui,
   Box,
 } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
@@ -31,15 +32,21 @@ type NavigationProps = {
   onCloseNav: () => void;
 };
 
-function isNavigationDivider(item: NavigationItems): item is NavigationDivider {
+function isNavigationDivider(
+  item: NavigationItems
+): item is NavigationDivider {
   return item.kind === "divider";
 }
 
-function isNavigationTitle(item: NavigationItems): item is NavigationTitle {
+function isNavigationTitle(
+  item: NavigationItems
+): item is NavigationTitle {
   return item.kind === "header";
 }
 
-function isNavigationBrand(item: NavigationItems): item is NavigationBrand {
+function isNavigationBrand(
+  item: NavigationItems
+): item is NavigationBrand {
   return item.kind === "brand";
 }
 
@@ -53,7 +60,8 @@ export default memo(function Navbar({
   open,
   onCloseNav,
 }: NavigationProps) {
-  const { isMobile } = useScreen();
+  const { isMobile, isOpenNav } = useScreen();
+  const theme = useThemeMui();
   const Comp = isMobile ? MuiDrawer : Drawer;
   const data = useMemo(() => navigation, [navigation]);
 
@@ -100,7 +108,9 @@ export default memo(function Navbar({
                   to={`/${navItem.to}`}
                   className={({ isActive }) => {
                     let classes: string = "flex items-center rounded-md";
-                    classes += isActive ? " bg-[#e8f0fe]" : "";
+                    classes += isActive
+                      ? ` bg-[${theme.palette.primary.main}] text-[${theme.palette.primary.contrastText}]`
+                      : "";
                     return classes;
                   }}
                 >
@@ -112,26 +122,28 @@ export default memo(function Navbar({
                     placement="right"
                     title={navItem.title}
                   >
-                    <ListItem className="max-h-12 p-3 hover:bg-[#2021240a] rounded-md transition duration-200 ease-in-out cursor-pointer">
+                    <ListItem className="max-h-12 p-3 pr-1 hover:bg-[#2021240a] rounded-md transition duration-200 ease-in-out cursor-pointer">
                       {navItem.icon && (
                         <ListItemIcon className="min-w-0 flex items-center justify-center">
                           {navItem.icon}
                         </ListItemIcon>
                       )}
 
-                      <Box className="flex items-center w-full">
-                        <ListItemText className="ml-5 flex-grow my-0">
-                          {navItem.title}
-                        </ListItemText>
-                        {navItem.action && (
-                          <ListItemIcon
-                            className="min-w-0"
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            {navItem.action}
-                          </ListItemIcon>
-                        )}
-                      </Box>
+                      {isOpenNav && (
+                        <Box className="flex items-center w-full">
+                          <ListItemText className="ml-5 flex-grow my-0">
+                            {navItem.title}
+                          </ListItemText>
+                          {navItem.action && (
+                            <ListItemIcon
+                              className="min-w-0"
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              {navItem.action}
+                            </ListItemIcon>
+                          )}
+                        </Box>
+                      )}
                     </ListItem>
                   </Tooltip>
                 </NavLink>
