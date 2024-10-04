@@ -27,8 +27,6 @@ export default function UsersPage() {
   const { isMobile } = useScreen();
   const theme = useThemeMui();
 
-  console.log(2);
-
   return (
     <Fragment>
       <Box

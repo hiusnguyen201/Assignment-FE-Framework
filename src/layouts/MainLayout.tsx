@@ -80,31 +80,55 @@ const NAVIGATION: NavigationItems[] = [
   },
 ];
 
-export default function MainLayout() {
-  const { isMobile, isDesktop, isTablet, isOpenNav, setUserOpenNav } =
-    useScreen();
-  const [openNav, setOpenNav] = useState<boolean>(() => {
-    if (isMobile || isTablet) {
-      return false;
-    }
+type InitNavbar = {
+  currStatus: boolean;
+  clicked: boolean;
+};
 
-    setUserOpenNav(true);
-    return isOpenNav;
+export default function MainLayout() {
+  const { isMobile, isTablet, isDesktop } = useScreen();
+
+  const [navbar, setNavBar] = useState<InitNavbar>(() => {
+    const storedNavbar = localStorage.getItem("navbar");
+    return storedNavbar
+      ? JSON.parse(storedNavbar)
+      : {
+          currStatus: true,
+          clicked: false,
+        };
   });
 
   useEffect(() => {
-    if (isTablet || (isMobile && openNav === true)) {
-      setOpenNav(false);
-    } else if (isDesktop && openNav === false && isOpenNav) {
-      setOpenNav(true);
+    localStorage.setItem("navbar", JSON.stringify(navbar));
+  }, [navbar]);
+
+  useEffect(() => {
+    if (navbar.clicked && !navbar.currStatus) return;
+
+    if (isTablet) {
+      setNavBar({
+        currStatus: false,
+        clicked: false,
+      });
+    } else if (isDesktop) {
+      setNavBar({
+        currStatus: true,
+        clicked: false,
+      });
     }
-  }, [isTablet, isMobile, isDesktop]);
+  }, [isMobile, isTablet]);
 
   return (
     <Box className="flex">
-      <Header onOpenNav={() => setOpenNav(!openNav)} />
+      <Header
+        onToggleNav={() => {
+          setNavBar({
+            currStatus: !navbar.currStatus,
+            clicked: true,
+          });
+        }}
+      />
       <Navbar
-        onCloseNav={() => setOpenNav(!openNav)}
         sx={{
           "& .MuiPaper-root": {
             marginTop: isMobile
@@ -115,8 +139,14 @@ export default function MainLayout() {
               : "",
           },
         }}
-        open={openNav}
         navigation={isMobile ? NAVIGATION : NAVIGATION.slice(4)}
+        open={navbar.currStatus}
+        onClose={() => {
+          setNavBar({
+            currStatus: false,
+            clicked: true,
+          });
+        }}
       />
 
       <Box
@@ -127,7 +157,7 @@ export default function MainLayout() {
           })`,
           width: !isMobile
             ? `calc(100% - var(--nav-width-${
-                isTablet || !openNav ? "closed" : "desktop"
+                isTablet || !navbar.currStatus ? "closed" : "desktop"
               }))`
             : "100%",
         }}

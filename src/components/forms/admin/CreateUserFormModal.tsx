@@ -25,6 +25,7 @@ import { capitalizeFirstLetter } from "#src/utils/stringUtils";
 import FormModalLayout from "./FormModalLayout";
 import { Gender, PasswordNotice } from "#src/constants";
 import useScreen from "#src/hooks/useScreen";
+import { AvatarField } from "#src/components/fields";
 
 type ModalProps = {
   children: ReactNode;
@@ -34,7 +35,11 @@ const schema = yup
   .object({
     name: yup.string().required(),
     email: yup.string().email().required(),
-    phone: yup.string().nullable(),
+    phone: yup
+      .string()
+      .trim()
+      .matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g, "")
+      .nullable(),
     gender: yup.string().nullable(),
     role: yup.string().required(),
     passwordNotice: yup.boolean().required(),
@@ -97,48 +102,57 @@ export default memo(function CreateUserFormModal({
             Basic Information
           </Typography>
           <CardContent className="p-0">
-            <Box className="mb-4">
-              <TextField
-                required
-                label="Name"
-                error={!!errors.name}
-                type="text"
-                className="w-full"
-                {...register("name")}
-                helperText={
-                  errors.name &&
-                  capitalizeFirstLetter(errors.name.message || "")
-                }
+            <Box className="flex flex-col sm:flex-row gap-5">
+              <AvatarField
+                className="mx-5 sm:self-start"
+                width={120}
+                height={120}
               />
-            </Box>
+              <Box className="flex-grow w-full">
+                <Box className="mb-4">
+                  <TextField
+                    required
+                    label="Name"
+                    error={!!errors.name}
+                    type="text"
+                    className="w-full"
+                    {...register("name")}
+                    helperText={
+                      errors.name &&
+                      capitalizeFirstLetter(errors.name.message || "")
+                    }
+                  />
+                </Box>
 
-            <Box className="mb-4">
-              <TextField
-                required
-                label="Email Address"
-                error={!!errors.email}
-                type="email"
-                className="w-full"
-                {...register("email")}
-                helperText={
-                  errors.email &&
-                  capitalizeFirstLetter(errors.email.message || "")
-                }
-              />
-            </Box>
+                <Box className="mb-4">
+                  <TextField
+                    required
+                    label="Email Address"
+                    error={!!errors.email}
+                    type="email"
+                    className="w-full"
+                    {...register("email")}
+                    helperText={
+                      errors.email &&
+                      capitalizeFirstLetter(errors.email.message || "")
+                    }
+                  />
+                </Box>
 
-            <Box className="mb-4">
-              <TextField
-                label="Phone Number"
-                error={!!errors.phone}
-                type="tel"
-                className="w-full"
-                {...register("phone")}
-                helperText={
-                  errors.phone &&
-                  capitalizeFirstLetter(errors.phone.message || "")
-                }
-              />
+                <Box className="mb-4">
+                  <TextField
+                    label="Phone Number"
+                    error={!!errors.phone}
+                    type="tel"
+                    className="w-full"
+                    {...register("phone")}
+                    helperText={
+                      errors.phone &&
+                      capitalizeFirstLetter(errors.phone.message || "")
+                    }
+                  />
+                </Box>
+              </Box>
             </Box>
 
             <Box className="mb-4">

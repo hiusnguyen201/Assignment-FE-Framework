@@ -29,11 +29,14 @@ import { ThemeMode } from "#src/constants";
 
 type HeaderProps = {
   className?: string;
-  onOpenNav: () => void;
+  onToggleNav: () => void;
 };
 
-export default memo(function Header({ onOpenNav }: HeaderProps) {
-  const { setUserOpenNav, isOpenNav, isMobile } = useScreen();
+export default memo(function Header({
+  className,
+  onToggleNav,
+}: HeaderProps) {
+  const { isMobile } = useScreen();
   const { setThemeMode, isDark } = useSettings();
 
   const toggleTheme = useCallback(() => {
@@ -88,10 +91,7 @@ export default memo(function Header({ onOpenNav }: HeaderProps) {
         <Box className="flex items-center">
           <Tooltip title="Main Menu">
             <IconButton
-              onClick={() => {
-                onOpenNav();
-                setUserOpenNav(!isOpenNav);
-              }}
+              onClick={onToggleNav}
               className="p-3"
               aria-label="open drawer"
             >
