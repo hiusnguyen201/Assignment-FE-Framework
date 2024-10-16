@@ -1,31 +1,24 @@
-import { Fragment, useState } from "react";
-import {
-  Box,
-  Button,
-  IconButton,
-  Tooltip,
-  Typography,
-  TextField,
-  useTheme as useThemeMui,
-} from "@mui/material";
-import {
-  ViewList as ViewListIcon,
-  Window as WindowIcon,
-} from "@mui/icons-material";
+import { Fragment, useEffect } from "react";
+import { Box, Button, Typography, TextField } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 
-import { columns, mobileColumns } from "./columns";
-import { rows } from "./rows";
+import store from "#src/redux/store";
+import { getAllUser } from "#src/redux/slices/userSlice";
 import DataListTable from "#src/components/DataListTable";
 import useScreen from "#src/hooks/useScreen";
-import { CreateUserFormModal } from "#src/components/forms/admin";
-import { DataTableType } from "#src/constants";
+import { CreateUserFormModal } from "#src/components/forms";
+import { columns, mobileColumns } from "./columns";
 
 export default function UsersPage() {
-  const [tableType, setTableType] = useState<DataTableType>(
-    DataTableType.LIST
-  );
   const { isMobile } = useScreen();
-  const theme = useThemeMui();
+  const { list: users, isLoading } = useSelector(
+    (state: ReturnType<typeof store.getState>) => state.user
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllUser() as any);
+  }, [dispatch]);
 
   return (
     <Fragment>
@@ -34,7 +27,7 @@ export default function UsersPage() {
         className="flex items-center justify-between mb-2"
       >
         <Typography className="text-lg font-bold" variant="h4">
-          Users List
+          Users
         </Typography>
 
         <CreateUserFormModal>
@@ -45,30 +38,7 @@ export default function UsersPage() {
       </Box>
 
       <Box className="flex flex-col sm:flex-row items-center justify-between gap-2">
-        <Box className="flex items-center gap-1 order-2 mb-2 sm:order-none mb-1 -mt-2 sm:mt-0">
-          {Object.values(DataTableType).map((type) => {
-            const isActive = type === tableType;
-            return (
-              <Tooltip key={type} title={type}>
-                <IconButton
-                  sx={{
-                    color: isActive
-                      ? theme.palette.primary.main
-                      : theme.palette.text.primary,
-                  }}
-                  onClick={() => setTableType(type)}
-                >
-                  {type === DataTableType.LIST ? (
-                    <ViewListIcon />
-                  ) : (
-                    <WindowIcon />
-                  )}
-                </IconButton>
-              </Tooltip>
-            );
-          })}
-        </Box>
-
+        <Box></Box>
         <Box className="flex items-center gap-1 mb-1 sm:mb-2">
           <TextField
             size="small"
@@ -87,7 +57,8 @@ export default function UsersPage() {
       </Box>
 
       <DataListTable
-        rows={rows}
+        rows={users}
+        loading={isLoading}
         columns={isMobile ? mobileColumns : columns}
       />
     </Fragment>

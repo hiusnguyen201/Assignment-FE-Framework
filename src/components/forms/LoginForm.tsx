@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Box, TextField, Button } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { capitalizeFirstLetter } from "#src/utils/stringUtils";
@@ -33,33 +33,28 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={onSubmit}>
-      <Box className="mb-5">
-        <TextField
-          label="Email"
-          error={!!errors.email}
-          type="email"
-          className="w-full"
-          {...register("email")}
-          helperText={
-            errors.email &&
-            capitalizeFirstLetter(errors.email.message || "")
-          }
-        />
-      </Box>
+      <TextField
+        label="Email"
+        error={!!errors.email}
+        type="email"
+        className="w-full mb-4"
+        {...register("email")}
+        helperText={
+          errors.email && capitalizeFirstLetter(errors.email.message || "")
+        }
+      />
 
-      <Box className="mb-5">
-        <TextField
-          label="Password"
-          error={!!errors.password}
-          type="password"
-          className="w-full"
-          {...register("password")}
-          helperText={
-            errors.password &&
-            capitalizeFirstLetter(errors.password.message || "")
-          }
-        />
-      </Box>
+      <TextField
+        label="Password"
+        error={!!errors.password}
+        type="password"
+        className="w-full mb-4"
+        {...register("password")}
+        helperText={
+          errors.password &&
+          capitalizeFirstLetter(errors.password.message || "")
+        }
+      />
 
       <Button
         disabled={!isValid}

@@ -30,11 +30,10 @@ import {
 } from "@mui/icons-material";
 
 import { AccountStatus, Role } from "#src/constants";
-import rows from "./rows";
 import MenuPopper, { MenuPopperItem } from "#src/components/MenuPopper";
 
 export { columns, mobileColumns };
-const columns: GridColDef<(typeof rows)[number]>[] = [
+const columns: GridColDef[] = [
   {
     field: "avatar",
     headerName: "Avatar",
@@ -54,7 +53,7 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     minWidth: 100,
     renderCell: (params) => (
       <Box className="h-full flex items-center gap-2">
-        <Link className="text-blue-500" to={`/users/${params.row.id}`}>
+        <Link className="text-blue-500" to={`/users/${params.row._id}`}>
           <Typography>{params.row.name}</Typography>
         </Link>
       </Box>
@@ -92,7 +91,7 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     renderCell: (params) => (
       <Box className="h-full flex items-center gap-2">
         <Box
-          className={`inline-flex gap-2 items-center rounded-full px-3 py-1.5 text-xs ring-1 ring-inset status-badge-${params.row.status.toLowerCase()}`}
+          className={`inline-flex gap-2 items-center rounded-full px-3 py-1.5 text-xs ring-1 ring-inset status-badge-${params.row?.status?.toLowerCase()}`}
         >
           <CircleIcon sx={{ width: 6, height: 6 }} />
           <Typography>{params.row.status}</Typography>
@@ -108,10 +107,6 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     flex: 0.1,
     renderCell: () => {
       const items: MenuPopperItem[] = [
-        {
-          title: "Save",
-          icon: <SaveIcon />,
-        },
         {
           title: "Details",
           icon: <VisibilityIcon />,
@@ -141,7 +136,7 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
   },
 ];
 
-const mobileColumns: GridColDef<(typeof rows)[number]>[] = [
+const mobileColumns: GridColDef[] = [
   {
     field: "",
     headerName: "",
@@ -160,7 +155,7 @@ function customEditCell<T extends { [key: string]: string }>(
   const handleChange = (e: SelectChangeEvent) => {
     params.api.setEditCellValue(
       {
-        id: params.id,
+        id: params._id,
         field: params.field,
         value: e.target.value as T[keyof T],
       },
@@ -207,7 +202,10 @@ function renderDetailsCell(params: GridRenderCellParams): ReactNode {
       <Box className="px-2 py-3 inline-flex flex-col items-start gap-2 w-full">
         <Box className="flex items-center justify-between w-full">
           <Box className="flex-grow flex items-center gap-2">
-            <Avatar sx={{ width: 32, height: 32 }} src={params.row.avatar} />
+            <Avatar
+              sx={{ width: 32, height: 32 }}
+              src={params.row.avatar}
+            />
             <Typography>{params.row.name}</Typography>
           </Box>
 

@@ -103,34 +103,37 @@ export default memo(function Navbar({
                         : "inherit",
                       color: isActive
                         ? theme.palette.primary.contrastText
-                        : "inherit",
+                        : theme.palette.text.primary,
                       ":hover": {
                         backgroundColor: theme.palette.primary.main,
                         color: theme.palette.primary.contrastText,
                       },
                     }}
-                    className={`max-h-12 my-1 p-3 pr-1 rounded-md transition duration-200 ease-in-out cursor-pointer`}
+                    className={`max-h-12 my-1 p-3 rounded-md transition duration-200 ease-in-out cursor-pointer`}
                   >
                     {navItem.icon && (
                       <ListItemIcon className="min-w-0 flex items-center justify-center">
                         {navItem.icon}
                       </ListItemIcon>
                     )}
-                    <Box className="flex items-center w-full">
-                      <ListItemText className="ml-5 flex-grow my-0">
-                        {navItem.title}
-                      </ListItemText>
-                      {navItem.action && (
-                        <ListItemIcon
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                          className="min-w-0"
-                        >
-                          {navItem.action}
-                        </ListItemIcon>
-                      )}
-                    </Box>
+
+                    {open && (
+                      <Box className="flex items-center w-full">
+                        <ListItemText className="ml-5 flex-grow my-0">
+                          {navItem.title}
+                        </ListItemText>
+                        {navItem.action && (
+                          <ListItemIcon
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                            className="min-w-0 -mr-2"
+                          >
+                            {navItem.action}
+                          </ListItemIcon>
+                        )}
+                      </Box>
+                    )}
                   </ListItem>
                 </Tooltip>
               </Box>

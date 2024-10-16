@@ -6,11 +6,13 @@ import {
   Dashboard as DashboardIcon,
   Settings as SettingsIcon,
   Add as AddIcon,
+  ManageAccounts as ManageAccountsIcon,
+  Key as KeyIcon,
 } from "@mui/icons-material";
 
 import Header from "./partials/Header";
 import Navbar, { NavigationItems } from "./partials/Navbar";
-import { CreateUserFormModal } from "#src/components/forms/admin";
+import { CreateUserFormModal } from "#src/components/forms";
 import useScreen from "#src/hooks/useScreen";
 
 const USER = {
@@ -69,6 +71,20 @@ const NAVIGATION: NavigationItems[] = [
         </IconButton>
       </CreateUserFormModal>
     ),
+  },
+  {
+    kind: "header",
+    title: "User Management",
+  },
+  {
+    icon: <ManageAccountsIcon />,
+    to: "roles",
+    title: "Roles",
+  },
+  {
+    icon: <KeyIcon />,
+    to: "permissions",
+    title: "Permissions",
   },
   {
     kind: "divider",

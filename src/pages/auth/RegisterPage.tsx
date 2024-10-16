@@ -1,7 +1,7 @@
 import { Card, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { RegisterForm } from "#src/components/forms/auth";
+import { RegisterForm } from "#src/components/forms";
 
 export default function RegisterPage() {
   return (

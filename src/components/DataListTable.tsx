@@ -39,6 +39,7 @@ export default function DataListTable<T extends { [key: string]: any }>({
         height: isMobile ? "auto" : 500,
       }}
       rows={rowData}
+      getRowId={(params) => params._id}
       columns={columnData}
       slots={{
         noRowsOverlay: CustomNoRowsOverlay,

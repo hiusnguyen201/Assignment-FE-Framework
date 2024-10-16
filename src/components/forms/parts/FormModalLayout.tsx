@@ -34,12 +34,7 @@ export default memo(function FormModalLayout({
       <Box onClick={handleOpen}>{anchorEl}</Box>
       <AnimatePresence>
         {openModal && (
-          <Modal
-            open={openModal}
-            onClose={handleClose}
-            aria-labelledby="create-user"
-            aria-describedby="create-user"
-          >
+          <Modal open={openModal} onClose={handleClose}>
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{
@@ -49,7 +44,12 @@ export default memo(function FormModalLayout({
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.2 }}
             >
-              <Box className="w-screen h-screen rounded-none bg-white">
+              <Box
+                className="w-screen h-screen rounded-none"
+                sx={{
+                  backgroundColor: "background.default",
+                }}
+              >
                 {/* Header */}
                 <Box
                   component="header"
@@ -58,7 +58,12 @@ export default memo(function FormModalLayout({
                     height: `var(--form-modal-header-height)`,
                   }}
                 >
-                  <Box className="flex items-center gap-2">
+                  <Box
+                    sx={{
+                      color: "text.primary",
+                    }}
+                    className="flex items-center gap-2"
+                  >
                     <Tooltip title="Close">
                       <IconButton onClick={handleClose}>
                         <CloseIcon />

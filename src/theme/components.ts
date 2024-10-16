@@ -9,13 +9,6 @@ const components: Components = {
       },
     },
   },
-  MuiIconButton: {
-    styleOverrides: {
-      root: {
-        color: "inherit",
-      },
-    },
-  },
   MuiListItemButton: {
     styleOverrides: {
       root: {
@@ -31,12 +24,18 @@ const components: Components = {
       },
     },
   },
+  MuiIconButton: {
+    styleOverrides: {
+      root: {
+        color: "inherit",
+      },
+    },
+  },
   MuiTypography: {
     styleOverrides: {
       root: {
         fontSize: "inherit",
         fontWeight: "inherit",
-        color: "inherit",
       },
     },
   },
